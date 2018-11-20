@@ -1,10 +1,10 @@
 #!/bin/bash
-read -t 10 -p "Do you want to export slim into python-path(y/n)? >> " ans
+read -t 10 -p "Do you want to export slim into python-path? >> " ans
 if [ -n ${ans} -a ${ans} == 'y' ]; then
-  export PYTHONPATH="${PYTHONPATH}:$(pwd)/models:$(pwd)/models/research/slim/"
-  echo "Export slim into ${PYTHONPATH}"
+  export PYTHONPATH="${PYTHONPATH}:/home/zgwu/mobileNetDemo/models:/home/zgwu/mobileNetDemo/models/research/slim/"
+  echo "Added slim to python-path ${PYTHONPATH}"
 else
-  echo "Ok, skip anyways."
+  echo "Ok, skip to export the path."
 fi
 
 train='train.py'
@@ -13,3 +13,10 @@ if [ -e ${train} ]; then
 else
    echo "${train} doesn't exist."
 fi
+
+#test='use_model.py'
+#if [ -e ${test} ]; then
+#   python ${test}
+#else
+#   echo "${test} doesn't exist."
+#fi
