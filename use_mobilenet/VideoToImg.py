@@ -15,11 +15,9 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# modify:
 # @name : wzg
 # @time : 2018-11-20
-# @desc : test - hand3d - extract each frame and process to picture
-# @last : run so long
+# @desc : extract each frame and crop the hand as dataset
 #
 from __future__ import print_function, unicode_literals
 
