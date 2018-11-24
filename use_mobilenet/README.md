@@ -21,7 +21,7 @@ Use a face detection to narrow the identified area and reduce the amount of reco
 #### (2) Using [Real-time Hand-Detection using Neural Networks (SSD) on Tensorflow]
 https://github.com/victordibia/handtracking
 横屏拍摄各类手势视频，隔帧提取并缩放处理：<br>
-可在CPU上运行: ```python hand3d/run_detect_single_hand_ssd.py```
+可在CPU上运行: ```python handtracking/run_detect_single_hand_ssd.py```
 
 ### Train your own model
 Modified from tensorflow_models_nets: https://github.com/PanJinquan/tensorflow_models_nets
