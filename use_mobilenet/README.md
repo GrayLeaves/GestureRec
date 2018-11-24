@@ -14,8 +14,8 @@ export tensorflow/model/research/slim,以便使用nets和mobilenet
 #### (1) Using [ColorHandPose3D network]
 https://github.com/lmb-freiburg/hand3d
 #### OpenCV face detection
-multiple cascades: https://github.com/Itseez/opencv/tree/master/data/haarcascades
-Use a face detection to narrow the identified area and reduce the amount of recognition calculation.
+multiple cascades: https://github.com/Itseez/opencv/tree/master/data/haarcascades <br>
+Use a face detection to narrow the identified area and reduce the amount of recognition calculation.<br>
 横屏拍摄各类手势居中的视频，隔帧提取并裁剪缩放处理，以减少提取手势的计算量：<br>
 推荐GPU上运行: ```python hand3d/run_detect_single_hand_3d.py ```
 #### (2) Using [Real-time Hand-Detection using Neural Networks (SSD) on Tensorflow]
