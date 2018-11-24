@@ -15,10 +15,6 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# @name : wzg
-# @time : 2018-11-20
-# @desc : extract each frame and crop the hand as dataset
-#
 from __future__ import print_function, unicode_literals
 
 import tensorflow as tf
@@ -30,7 +26,6 @@ from nets.ColorHandPose3DNetwork import ColorHandPose3DNetwork
 from utils.general import detect_keypoints, trafo_coords, plot_hand, plot_hand_3d
 import cv2, os, time, math
 
-# 设置最后得到的图片高宽
 height, width, channel = 320, 320, 3
 
 video_path = './Videos/'               # source video path
