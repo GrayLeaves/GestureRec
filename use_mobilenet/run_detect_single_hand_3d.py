@@ -26,7 +26,7 @@ from nets.ColorHandPose3DNetwork import ColorHandPose3DNetwork
 from utils.general import detect_keypoints, trafo_coords, plot_hand, plot_hand_3d
 import cv2, os, time, math
 
-height, width, channel = 320, 320, 3
+height, width, channel = 224, 224, 3
 
 video_path = './Videos/'               # source video path
 result_root_path = './TargetImgPath/'  # result image path
@@ -56,7 +56,7 @@ def cropImgFromFrame(frame, area=None):
 
 def preProcessSingleFrame(frame):
     # multiple cascades: https://github.com/Itseez/opencv/tree/master/data/haarcascades
-    faceCascade = cv2.CascadeClassifier('haarcascade_facedetect_alt.xml')
+    faceCascade = cv2.CascadeClassifier('face_model_xml/haarcascade_facedetect_alt.xml')
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = faceCascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5, minSize=(20, 20))

@@ -3,12 +3,13 @@
 ### Environment
 Ubuntu中搭建强化学习平台（使用anaconda管理Python并安装tensorflow、opencv)
 https://www.cnblogs.com/qiangzi0221/p/8331715.html
+
 ### LabelImg
 https://github.com/tzutalin/labelImg
 
 ### Download TensorFlow Models
-https://github.com/tensorflow/models
-export tensorflow/model/research/slim,以便使用nets和mobilenet
+https://github.com/tensorflow/models <br>
+已将model/slim/net放进train_and_test/
 
 ### DataSet
 #### (1) Using [ColorHandPose3D network]

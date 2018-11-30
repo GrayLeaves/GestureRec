@@ -9,7 +9,7 @@ result_root_path = './TargetImgPath/'  # result image path
 score_thresh = 0.9  # scores
 gap = 3
 width, height = 640, 360  # resize to process or show
-save_w, save_h = 320, 320 
+save_w, save_h = 224, 224
 
 def from_image_crop_boxes(num_hands_detect, score_thresh, scores, boxes, width, height, image_np, save_path_name):
     isSave = False
