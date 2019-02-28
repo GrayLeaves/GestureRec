@@ -125,7 +125,7 @@ def get_batch_images(images, labels, batch_size, labels_nums, one_hot=False, shu
                                                             min_after_dequeue=min_after_dequeue, num_threads=num_threads)
     else:
         images_batch, labels_batch = tf.train.batch([images, labels], batch_size=batch_size,
-                                                        capacity=capacity, num_threads=num_threads)
+                                                    capacity=capacity, num_threads=num_threads)
     if one_hot:
         labels_batch = tf.one_hot(labels_batch, labels_nums, 1, 0)
     return images_batch, labels_batch
@@ -138,9 +138,9 @@ def read_records(filename, resize_height, resize_width, type=None, is_train=None
     :param resize_height:
     :param resize_width:
     :param type: 选择图像数据的返回类型
-         None:默认将uint8-[0,255]转为float32-[0,255]
-         normalization:归一化float32-[0,1]
-         centralization:归一化float32-[0,1], 再减均值中心化
+    --- None:默认将uint8-[0,255]转为float32-[0,255]
+    --- normalization:归一化float32-[0,1]
+    --- centralization:归一化float32-[0,1], 再减均值中心化
 	:param is_train: 训练还是测试，判断是否该做数据增强
     :return:
     '''
@@ -164,7 +164,7 @@ def read_records(filename, resize_height, resize_width, type=None, is_train=None
     # tf_height, tf_width, tf_depth = features['height'], features['width'], features['depth']
     tf_label = tf.cast(features['label'], tf.int32)
     # PS:恢复原始图像数据,reshape的大小必须与保存之前的图像shape一致,否则出错
-    tf_image=tf.reshape(tf_image, [resize_height, resize_width, 3]) # 设置图像的维度
+    tf_image = tf.reshape(tf_image, [resize_height, resize_width, 3]) # 设置图像的维度
 
     factor = 0.9
     if is_train == True:  # 数据增强
@@ -196,18 +196,19 @@ def read_records(filename, resize_height, resize_width, type=None, is_train=None
         
     # 存储的图像类型为uint8, tensorflow训练时数据必须是tf.float32
     # 恢复数据后,才可以对图像进行resize_images: 输入uint->输出float32
-    tf_image=tf.image.resize_images(tf_image, [resize_height, resize_width])
+    tf_image = tf.image.resize_images(tf_image, [resize_height, resize_width])
     
     if type is None:
         tf_image = tf.cast(tf_image, tf.float32)
-    elif type=='normalization':# [1]若需要归一化请使用: 仅当输入数据是uint8, 才会归一化[0,255]
+    elif type == 'normalization':  # [1]若需要归一化请使用: 仅当输入数据是uint8, 才会归一化[0,255]
         # tf_image = tf.image.convert_image_dtype(tf_image, tf.float32)
         tf_image = tf.cast(tf_image, tf.float32) * (1. / 255.0)  # 归一化
-    elif type=='centralization': # 若需要归一化,且中心化,假设均值为0.5,请使用:
+    elif type == 'centralization':  # 若需要归一化,且中心化,假设均值为0.5,请使用:
         tf_image = tf.cast(tf_image, tf.float32) * (1. / 255) - 0.5 #中心化
     
     # return tf_image, tf_label, tf_height, tf_width, tf_depth
-    return tf_image, tf_label # 这里仅仅返回图像和标签
+    return tf_image, tf_label  # 这里仅仅返回图像和标签
+
 
 def create_records(image_dir, file, output_record_dir, resize_height, resize_width, shuffle, log=5):
     '''
