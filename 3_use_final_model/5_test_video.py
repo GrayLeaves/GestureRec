@@ -20,7 +20,7 @@ b_show = False
 labelsStr = ['Fist', 'Admire', 'Victory', 'Okay', 'None', 'Palm', 'Six']
 label = {'Fist': 0, 'Good': 1, 'V': 2, 'OK': 3, 'None': 4, 'Palm': 5, 'Six': 6}
 labelsDict = {'Fist': 0, 'Admire': 1, 'Victory': 2, 'Okay': 3, 'None': 4, 'Palm': 5, 'Hex': 6}
-CKPT = 'weights\\model.ckpt-20000'  #待填写ckpt的路径
+CKPT = 'weights\\1203_s\\best_models_6000_0.9643.ckpt'  #待填写ckpt的路径
 num_classes = len(labelsStr)
 settings = '\n@@check_point_file: ' + CKPT + \
            '\n@@hand_score_thresh: ' + str(score_thresh) + \
@@ -211,13 +211,13 @@ def test_model_from_video(video_path, logger):
                          '\n@@each_elapsed_time: (detect_hands: {:.4f}s, classify_hand: {:.4f}s)'.format(D['tot_detect_t']/D['num_frames'], D['tot_classify_t']/D['num_hands']) + \
                          '\n@@classify_result: Fist  Admire  Victory  Okay  None  Palm  Six' + \
                          '\n                   {: <6d}{: <8d}{: <9d}{: <6d}{: <6d}{: <6d}{}'.format(D['r'][0], D['r'][1], D['r'][2], D['r'][3], D['r'][4], D['r'][5], D['r'][6]) + \
-                         '\n@@accuracy: {}/{} - {}% but in fact -> {}/{} - {}% with None'.format(D['acc'], D['num_hands'], int(100*D['acc']/D['num_hands']),D['acc']+D['r'][4], D['num_hands'], int(100*(D['acc']+D['r'][4])/D['num_hands'])) + \
+                         '\n@@accuracy: {}/{} - {}%'.format(D['acc'], D['num_hands'], int(100*D['acc']/D['num_hands'])) + \
                          '\n' + '-'*100
             print(result_log)
             logger.info(result_log)
             G['tot_num_hands'] += D['num_hands']
             G['tot_frames'] += D['num_frames']
-            G['tot_acc'] += D['acc'] + D['r'][4]
+            G['tot_acc'] += D['acc']
             G['tot_detect_t'] += D['tot_detect_t']
             G['tot_classify_t'] += D['tot_classify_t']
         logger.info("Totally detect {} frames with {} hand-detection ({}%) -- each_elapsed_time {:.4f}s\n"
