@@ -4,8 +4,11 @@ import datetime
 import tensorflow.contrib.slim as slim
 from generateTfrecords import *
 from nets.mobilenet import mobilenet_v2
+from nets.inception_resnet_v2 import *
+import nets.inception_v3 as inception_v3
 import logging
 import matplotlib.pyplot as plt
+
 from sklearn.model_selection import KFold
 
 
@@ -61,6 +64,7 @@ def resultpic(log_step, losses, accuracy):
     plt.tight_layout()
     plt.savefig(R.picName)
     plt.show()
+    logger.info(str(train_losses) + '\n' + str(train_accuracy) + '\n' + str(val_losses) + '\n' + str(val_accuracy))
 
 
 def net_evaluation(sess, loss, accuracy, val_images_batch, val_labels_batch, val_nums):
@@ -141,14 +145,14 @@ def step_train(train_op, loss, accuracy, train_images_batch, train_labels_batch,
                 logger.info(msg)
 
             # 模型保存:每迭代snapshot次或者最后一次保存
-            if (i % snapshot == 0 and i > 0) or i == R.max_steps:
-                print("Save model as " + snapshot_prefix.split(os.sep)[-1] + " !" * 3)
+            if (i >= R.max_steps // 4 and i % snapshot == 0) or i == R.max_steps:
+                print("--- Save model at {} with train_acc {} and val_acc {} --- ".format(i, train_acc, mean_acc))
                 saver.save(sess, snapshot_prefix, global_step=i)
             # 保存val准确率最高的模型
             if mean_acc > max_acc and mean_acc > R.save_min_accu:
                 max_acc = mean_acc
                 path = os.path.dirname(snapshot_prefix)
-                best_models = os.path.join(path, 'best_models_{}_{:.4f}.ckpt'.format(i, max_acc))
+                best_models = os.path.join(path, 'model_at_{}_acc_{:.3f}.ckpt'.format(i, max_acc))
                 saver.save(sess, best_models)
         # 关闭多线
         coord.request_stop()
@@ -192,11 +196,19 @@ def train(train_record_file, train_log_step, train_param, val_record_file,
                                                           labels_nums=num_classes, one_hot=True, shuffle=False)
     # ============================================================================================================
     # Define the model: [core]
-    with slim.arg_scope(mobilenet_v2.training_scope(dropout_keep_prob=R.dropout)):
-        out, end_points = mobilenet_v2.mobilenet(input_tensor=input_images, num_classes=num_classes,
-                                                 depth_multiplier=R.depth_multiplier, is_training=is_training)
+    #with slim.arg_scope(mobilenet_v2.training_scope(dropout_keep_prob=R.dropout)):
+    #    out, end_points = mobilenet_v2.mobilenet(input_tensor=input_images, num_classes=num_classes,
+    #                                             depth_multiplier=R.depth_multiplier, is_training=is_training)
+    # Define the model:
+    #with slim.arg_scope(inception_v3.inception_v3_arg_scope()):
+    #       out, end_points = inception_v3.inception_v3(inputs=input_images, num_classes=num_classes,
+    #                                                   dropout_keep_prob=R.dropout, is_training=is_training)
 
-    # Specify the loss function: tf.losses定义的loss函数都会自动添加到loss函数, 无需 # slim.losses.add_loss(my_loss)
+    # Define the model:
+    with slim.arg_scope(inception_resnet_v2_arg_scope()):
+          out, end_points = inception_resnet_v2(inputs=input_images, num_classes=num_classes,
+                                                dropout_keep_prob=R.dropout, is_training=is_training)
+
     tf.losses.softmax_cross_entropy(onehot_labels=input_labels, logits=out)  # 添加交叉熵损失loss=1.6
     loss = tf.losses.get_total_loss(add_regularization_losses=True)  # 添加正则化损失loss=2.2
     accuracy = tf.reduce_mean(tf.cast(tf.equal(tf.argmax(out, 1), tf.argmax(input_labels, 1)), tf.float32))

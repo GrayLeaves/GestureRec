@@ -1,8 +1,8 @@
 #!/bin/bash
 # source activate tensorflow >>> tf
 
-export PYTHONPATH="${PYTHONPATH}:/home/zgwu/mobileNetDemo/models:/home/zgwu/mobileNetDemo/handtracking/images/slim/"
-echo " export slim to ${PYTHONPATH} ok."
+#export PYTHONPATH="${PYTHONPATH}:/home/zgwu/mobileNetDemo/models:/home/zgwu/mobileNetDemo/handtracking/images/slim/"
+echo "Please export slim to ${PYTHONPATH} ok."
 
 graph=/home/zgwu/mobileNetDemo/models/research/object_detection/export_inference_graph.py
 if [ -e ${graph} ]; then

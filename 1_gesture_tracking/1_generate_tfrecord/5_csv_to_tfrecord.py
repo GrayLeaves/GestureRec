@@ -24,7 +24,7 @@ from object_detection.utils import dataset_util
 from collections import namedtuple, OrderedDict
 
 
-dirname = 'train' # and test
+dirname = 'train' # or test
 root_path = './images/'
 image_path = os.path.join(root_path, dirname)
 csv_path = os.path.join(root_path, dirname + '_m.csv')
